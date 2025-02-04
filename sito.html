@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="logo.png" type="image/png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FartQwen - The Ultimate Meme Coin</title>
+  <title>FartQwen</title>
+  <!-- Importa il font Bangers da Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
   <style>
-    /* Rimuoviamo eventuale scroll-behavior: smooth in CSS se usiamo la funzione JS personalizzata */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #121212;
@@ -14,36 +16,90 @@
       padding: 0;
       line-height: 1.6;
     }
+    
     body.game-active {
       overflow: hidden;
     }
-    /* Header with animated gradient background */
+
+    /* Animated Header */
     header {
       position: relative;
-      padding-top: 60px;
-      padding-bottom: 40px;
+      padding: 120px 20px 80px;
       text-align: center;
-      /* Animated gradient background */
-      background: linear-gradient(45deg, #8a2be2, #ff69b4, #8a2be2);
-      background-size: 200% 200%;
-      animation: gradientAnimation 8s ease infinite;
+      background: linear-gradient(135deg, #6a1b9a, #4a148c);
+      overflow: hidden;
     }
-    @keyframes gradientAnimation {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    .gas-clouds {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
     }
-    /* Navigation bar */
+    .gas-cloud {
+      position: absolute;
+      font-size: 8rem;
+      opacity: 0.15;
+      animation: float 12s infinite linear;
+      will-change: transform, opacity;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.1; }
+      50% { transform: translateY(-40px) translateX(40px) scale(1.2); opacity: 0.2; }
+      100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.1; }
+    }
+    .gas-cloud:nth-child(1) { left: 10%; top: 20%; animation-duration: 15s; }
+    .gas-cloud:nth-child(2) { left: 70%; top: 40%; animation-duration: 12s; }
+    .gas-cloud:nth-child(3) { left: 30%; top: 60%; animation-duration: 18s; }
+
+    header h1 {
+      font-family: 'Bangers', cursive; /* Font cartoon */
+      font-size: 4rem;
+      margin: 10px 0 0;
+      color: #ffeb3b;  /* Giallo */
+      text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3); /* Effetto bordo */
+      animation: wobble 2s ease-in-out infinite;
+    }
+    /* Classe per il logo immagine sotto il titolo */
+    header .logo-image {
+      display: block;
+      margin: 20px auto 0 auto;  /* Centra l'immagine e aggiunge un margine superiore */
+      max-width: 150px;          /* Imposta una larghezza massima, regolabile a piacere */
+      border: none;              /* Rimuove eventuali bordi */
+      box-shadow: none;          /* Rimuove l'ombra */
+      background: transparent;   /* Assicura che lo sfondo sia trasparente */
+    }
+    @keyframes wobble {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      25% { transform: translateX(-3px) rotate(-1deg); }
+      75% { transform: translateX(3px) rotate(1deg); }
+    }
+    header p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      color: #e1bee7;
+    }
+
+    /* Navigation Bar */
     nav {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background: rgba(18, 18, 18, 0.85);
+      background: rgba(18, 18, 18, 0.7); /* Più trasparente */
       backdrop-filter: blur(5px);
       z-index: 1000;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease, opacity 0.3s ease;
     }
+    /* La classe hidden sposta la nav fuori dalla visuale e la rende invisibile */
+    nav.hidden {
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
     .nav-container {
       max-width: 1200px;
       margin: 0 auto;
@@ -52,6 +108,7 @@
       justify-content: space-between;
       padding: 10px 20px;
     }
+
     .logo {
       font-size: 2rem;
       color: #ffffff;
@@ -59,9 +116,11 @@
       font-weight: bold;
       transition: transform 0.3s ease;
     }
+
     .logo:hover {
       transform: scale(1.1);
     }
+
     .nav-links {
       list-style: none;
       display: flex;
@@ -69,6 +128,7 @@
       margin: 0;
       padding: 0;
     }
+
     .nav-links li a {
       color: #ffffff;
       text-decoration: none;
@@ -76,6 +136,7 @@
       position: relative;
       transition: color 0.3s ease;
     }
+
     .nav-links li a::after {
       content: "";
       position: absolute;
@@ -86,23 +147,15 @@
       background-color: #ffcc00;
       transition: width 0.3s ease;
     }
+
     .nav-links li a:hover::after {
       width: 100%;
     }
+
     .nav-links li a:hover {
       color: #ffcc00;
     }
-    header h1 {
-      font-size: 3rem;
-      margin: 10px 0 0;
-      color: #fff;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    }
-    header p {
-      font-size: 1.2rem;
-      margin-top: 10px;
-      color: #f0f0f0;
-    }
+
     .container {
       max-width: 1200px;
       margin: 20px auto;
@@ -112,17 +165,20 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       position: relative;
     }
+
     h2 {
       color: #8a2be2;
       font-size: 2rem;
       margin-bottom: 15px;
     }
+
     img {
       max-width: 100%;
       height: auto;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
+
     .cta-button {
       display: block;
       background: linear-gradient(135deg, #8a2be2, #ff69b4);
@@ -136,27 +192,12 @@
       margin: 30px auto;
       max-width: 250px;
     }
+
     .cta-button:hover {
       transform: scale(1.05);
       box-shadow: 0 8px 20px rgba(138, 43, 226, 0.5);
     }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #1e1e1e;
-      color: #aaa;
-      position: relative;
-      bottom: 0;
-      width: 100%;
-    }
-    footer a {
-      color: #8a2be2;
-      text-decoration: none;
-      margin: 0 10px;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
+
     .contract-address {
       margin-top: 20px;
       text-align: center;
@@ -173,10 +214,7 @@
       max-width: 800px;
       margin: 20px auto;
     }
-    .contract-address span {
-      overflow-wrap: break-word;
-      word-break: break-all;
-    }
+
     .copy-button {
       background: #ff69b4;
       color: white;
@@ -187,10 +225,12 @@
       font-size: 0.9rem;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
     .copy-button:hover {
       transform: scale(1.1);
       box-shadow: 0 4px 10px rgba(255, 105, 180, 0.5);
     }
+
     .new-section {
       margin-top: 40px;
       padding: 20px;
@@ -198,13 +238,7 @@
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
-    .new-section h2 {
-      color: #ff69b4;
-    }
-    .new-section ul {
-      list-style-type: disc;
-      padding-left: 20px;
-    }
+
     .game-section {
       text-align: center;
       margin: 40px 0;
@@ -213,15 +247,12 @@
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
-    .game-section h2 {
-      color: #ff69b4;
-      margin-bottom: 20px;
-    }
-    /* Container for the canvas with the centered Play button */
+
     .canvas-container {
       position: relative;
       display: inline-block;
     }
+
     #gameCanvas {
       display: block;
       background: #1e1e1e;
@@ -229,7 +260,7 @@
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
-    /* Centered Play button on top of the canvas */
+
     #playGameBtn {
       position: absolute;
       top: 50%;
@@ -244,16 +275,18 @@
       font-size: 1.1rem;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
     #playGameBtn:hover {
       transform: translate(-50%, -50%) scale(1.05);
       box-shadow: 0 8px 20px rgba(138, 43, 226, 0.5);
     }
-    /* Container for the Stop button: full width and centered text */
+
     .stop-container {
       width: 100%;
       text-align: center;
       margin-top: 20px;
     }
+
     .stop-container button {
       padding: 12px 25px;
       background: linear-gradient(135deg, #8a2be2, #ff69b4);
@@ -265,16 +298,18 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       display: inline-block;
     }
+
     .stop-container button:hover {
       transform: scale(1.05);
       box-shadow: 0 8px 20px rgba(138, 43, 226, 0.5);
     }
+
     .game-info {
       margin-top: 15px;
       font-size: 1.1rem;
       color: #f0f0f0;
     }
-    /* Toast notification */
+
     #toast {
       visibility: hidden;
       min-width: 250px;
@@ -290,14 +325,17 @@
       transform: translateX(-50%);
       font-size: 1rem;
     }
+
     #toast.show {
       visibility: visible;
       animation: fadein 0.5s, fadeout 0.5s 2.5s;
     }
+
     @keyframes fadein {
       from {bottom: 0; opacity: 0;}
       to {bottom: 30px; opacity: 1;}
     }
+
     @keyframes fadeout {
       from {bottom: 30px; opacity: 1;}
       to {bottom: 0; opacity: 0;}
@@ -306,10 +344,10 @@
 </head>
 <body>
 
-  <!-- Navigation bar -->
-  <nav>
+  <nav id="navbar">
     <div class="nav-container">
-      <a href="#home" class="logo">𝕏</a>
+     
+      <a href="#home" class="logo scroll-link">𝕏</a>
       <ul class="nav-links">
         <li><a href="#home" class="scroll-link">Home</a></li>
         <li><a href="#about" class="scroll-link">About</a></li>
@@ -320,8 +358,14 @@
   </nav>
 
   <header id="home">
-    <h1>FartQwen (FQ)</h1>
-    <p>The Funniest Meme Coin Ever Created</p>
+    <div class="gas-clouds">
+      <div class="gas-cloud">💨</div>
+      <div class="gas-cloud">💨</div>
+      <div class="gas-cloud">💨</div>
+    </div>
+    <h1>FartQwen</h1>
+    <!-- Aggiunta del logo sotto il titolo -->
+    
   </header>
 
   <div class="container">
@@ -329,7 +373,7 @@
     <p>FartQwen was born from a simple and fun idea. A user asked me, as a web engineer, to create a meme coin and build a website for it. Thus, by combining humor, creativity, and blockchain technology, FartQwen came to life.</p>
     
     <h2 id="about">How It All Started</h2>
-    <p>The client wanted something unique—a coin capable of making people laugh while exploring the world of cryptocurrencies. I thought, "Why not create something absurd yet meaningful?" And that's how FartQwen was born, combining gameplay with cutting-edge technology.</p>
+    <p>The client wanted something unique a coin capable of making people laugh while exploring the world of cryptocurrencies. I thought, "Why not create something absurd yet meaningful?" And that's how FartQwen was born, combining gameplay with cutting-edge technology.</p>
 
     <h2>What I Think About FartQwen</h2>
     <p>I believe that FartQwen is much more than just a meme coin: it is a symbol of how creativity and technology can merge to create something unique. Although it began as a joke, it has the potential to evolve into a community-driven project where laughter and even profit can go hand in hand.</p>
@@ -364,16 +408,13 @@
     <div class="game-section" id="game">
       <h2>Play the FartQwen Game!</h2>
       <p>Control the snake to eat as many farts (💨) as possible. Use the arrow keys to move!</p>
-      <!-- Canvas container with centered Play button -->
       <div class="canvas-container">
         <canvas id="gameCanvas" width="400" height="400"></canvas>
         <button id="playGameBtn">Play the Game</button>
       </div>
-      <!-- Centered Stop button -->
       <div class="stop-container">
         <button id="stopGameBtn" style="display:none;">Stop the Game</button>
       </div>
-      <!-- Game info -->
       <div class="game-info">
         <span id="gameScore">Score: 0</span> | 
         <span id="gameSpeed">Speed: 1.00x</span>
@@ -389,7 +430,7 @@
   <div id="toast">Contract Address copied to clipboard!</div>
 
   <script>
-    // Funzione di smooth scroll personalizzata
+    // FUNZIONE: Smooth Scroll
     function smoothScroll(targetEl, duration) {
       const target = document.querySelector(targetEl);
       const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
@@ -405,7 +446,6 @@
         if (timeElapsed < duration) requestAnimationFrame(animation);
       }
 
-      // Funzione di easing (quadratica)
       function ease(t, b, c, d) {
         t /= d / 2;
         if (t < 1) return c / 2 * t * t + b;
@@ -416,17 +456,7 @@
       requestAnimationFrame(animation);
     }
 
-    // Aggiungiamo l'evento click a tutti i link con classe "scroll-link"
-    document.querySelectorAll('.scroll-link').forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetID = this.getAttribute('href');
-        // Durata dell'animazione in millisecondi (es. 800)
-        smoothScroll(targetID, 800);
-      });
-    });
-
-    // Function to show toast notification
+    // FUNZIONE: Toast Notification & Copy Address
     function showToast(message) {
       const toast = document.getElementById("toast");
       toast.textContent = message;
@@ -436,7 +466,6 @@
       }, 3000);
     }
 
-    // Function to copy the contract address
     function copyToClipboard() {
       const address = document.getElementById("contractAddress").innerText;
       navigator.clipboard.writeText(address).then(() => {
@@ -446,7 +475,34 @@
       });
     }
 
-    // Global variables for the game
+    // NAVBAR: Nascondi la barra se si scorre verso il basso, ricompare se si scorre verso l'alto.
+    let lastScrollY = window.pageYOffset;
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.pageYOffset;
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // Scrolling verso il basso: nascondi la navbar
+        navbar.classList.add('hidden');
+      } else {
+        // Scrolling verso l'alto: mostra la navbar
+        navbar.classList.remove('hidden');
+      }
+      lastScrollY = currentScrollY;
+    });
+
+    // Al click dei link della navbar, esegue lo smooth scroll e nasconde la navbar
+    document.querySelectorAll('.scroll-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetID = this.getAttribute('href');
+        smoothScroll(targetID, 800);
+        // Nascondi la navbar immediatamente al click
+        navbar.classList.add('hidden');
+      });
+    });
+
+    // Variabili e funzioni per il gioco Snake
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
     const playGameBtn = document.getElementById("playGameBtn");
@@ -456,7 +512,6 @@
     const box = 20;
     let snake, food, direction, score, speed, gameInterval;
 
-    // Reset function to initialize game variables
     function resetGame() {
       snake = [
         { x: 10 * box, y: 10 * box },
@@ -471,7 +526,6 @@
       gameSpeed.textContent = `Speed: ${speed.toFixed(2)}x`;
     }
 
-    // Start the game: activate "game-active" state and start the loop
     function startGame() {
       document.body.classList.add('game-active');
       gameInterval = setInterval(() => {
@@ -480,7 +534,6 @@
       }, 100 / speed);
     }
 
-    // Stop the game, reset state and clear the canvas
     function stopGame() {
       clearInterval(gameInterval);
       document.body.classList.remove('game-active');
@@ -518,13 +571,13 @@
       if (direction === "RIGHT") head.x += box;
       if (direction === "DOWN") head.y += box;
 
-      // Wrapping: if the head goes off the canvas, it reappears on the opposite side
+      // Wrapping: se la testa esce dal canvas, riappare dall'altra parte
       if (head.x < 0) head.x = canvas.width - box;
       if (head.x >= canvas.width) head.x = 0;
       if (head.y < 0) head.y = canvas.height - box;
       if (head.y >= canvas.height) head.y = 0;
 
-      // Check for collision with itself
+      // Controlla collisione con se stessa
       if (snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)) {
         alert(`Game Over! You ate ${score} farts!`);
         stopGame();
@@ -533,10 +586,9 @@
 
       snake.unshift(head);
 
-      // If the head reaches the food
+      // Se la testa raggiunge il cibo
       if (head.x === food.x && head.y === food.y) {
         score++;
-        // Increase speed by 0.25 every 5 farts eaten (max speed 10)
         speed = Math.min(10, 1 + Math.floor(score / 5) * 0.25);
         gameScore.textContent = `Score: ${score}`;
         gameSpeed.textContent = `Speed: ${speed.toFixed(2)}x`;
@@ -557,7 +609,7 @@
       fartSound.play();
     }
 
-    // Handling arrow key presses to control the snake
+    // Gestione dei tasti freccia per il controllo del gioco
     document.addEventListener("keydown", e => {
       if (['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown'].includes(e.key)) {
         e.preventDefault();
@@ -568,7 +620,6 @@
       if (e.key === "ArrowDown" && direction !== "UP") direction = "DOWN";
     });
 
-    // On click of the Play button: reset, hide the Play button and start the game
     playGameBtn.addEventListener("click", () => {
       resetGame();
       playGameBtn.style.display = 'none';
@@ -576,15 +627,15 @@
       startGame();
     });
 
-    // On click of the Stop button: stop and reset the game
     stopGameBtn.addEventListener("click", () => {
       stopGame();
     });
 
-    // On load: reset the game without starting it
+    // Inizializza il gioco
     resetGame();
     stopGame();
   </script>
 
 </body>
 </html>
+
